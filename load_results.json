@@ -1,0 +1,566 @@
+{
+  "accepted": [
+    {
+      "job_id": "7b488c56-09de-4a45-9b24-5431af5ea629",
+      "status": "PENDING",
+      "accepted_after_seconds": 0.05854316700424533
+    },
+    {
+      "job_id": "348d6142-3be7-4c87-b72d-253879e80828",
+      "status": "PENDING",
+      "accepted_after_seconds": 0.057249582998338155
+    },
+    {
+      "job_id": "4c06c0c1-c3f7-4252-8fa0-ae683e692650",
+      "status": "PENDING",
+      "accepted_after_seconds": 0.058663999996497296
+    },
+    {
+      "job_id": "c4b4ce87-f438-4540-a9ae-222a06bf4bcb",
+      "status": "PENDING",
+      "accepted_after_seconds": 0.05883650000032503
+    },
+    {
+      "job_id": "7cb1eb5f-8783-4c1c-a0ea-27bb50798657",
+      "status": "PENDING",
+      "accepted_after_seconds": 0.05901387499761768
+    }
+  ],
+  "jobs": [
+    {
+      "job_id": "7b488c56-09de-4a45-9b24-5431af5ea629",
+      "interrupts": [],
+      "trace_id": "5c7cc052316e06b120ec88792d9a4e25",
+      "status": "DONE",
+      "updated_at": "2026-11-19T19:19:26.219134+00:00",
+      "result": {
+        "job_id": "7b488c56-09de-4a45-9b24-5431af5ea629",
+        "action": "analyze",
+        "approved": false,
+        "published": false,
+        "request": "Investigá chunking con solapamiento. Calculá las ventanas fijas para 2000 tokens, tamaño 500 y solapamiento 50. Citá fuentes.",
+        "next_agent": "finish",
+        "instruction": "Calculá la cantidad de ventanas fijas para 2000 tokens, tamaño 500 y solapamiento 50. Utiliza la fórmula de dimensionamiento. Citá la fuente Falta un cálculo válido con los tres parámetros del pedido.",
+        "research": {
+          "documents": [
+            {
+              "source": "chunking.md",
+              "title": "Chunking con solapamiento",
+              "text": "El chunking divide un documento en fragmentos. Para este ejercicio se trabaja con ventanas de tokens de tamaño fijo. El solapamiento conserva tokens del fragmento anterior. Con tamaño 500 y solapamiento 50, cada fragmento posterior avanza 450 tokens. El tamaño y el solapamiento de la consulta del usuario tienen prioridad sobre los ejemplos."
+            },
+            {
+              "source": "dimensionamiento.md",
+              "title": "Cantidad de fragmentos de un documento",
+              "text": "Para N tokens, tamaño C y solapamiento O, con N positivo y 0 <= O < C, la cantidad mínima de ventanas de tamaño fijo es 1 si N <= C; en otro caso es 1 + ceil((N-C)/(C-O)). Es una estimación para ventanas fijas, no la cantidad exacta de fragmentos de un splitter que respeta párrafos."
+            }
+          ]
+        },
+        "analysis": {
+          "total_tokens": 2000,
+          "chunk_size": 500,
+          "overlap": 50,
+          "stride": 450,
+          "chunks": 5,
+          "coverage": 2300,
+          "source": "dimensionamiento.md"
+        },
+        "contributions": [
+          {
+            "agent": "researcher",
+            "tool": "search_knowledge",
+            "arguments": {
+              "query": "chunking con solapamiento, ventanas fijas para 2000 tokens, tamaño 500 y solapam"
+            },
+            "result": {
+              "documents": [
+                {
+                  "source": "chunking.md",
+                  "title": "Chunking con solapamiento",
+                  "text": "El chunking divide un documento en fragmentos. Para este ejercicio se trabaja con ventanas de tokens de tamaño fijo. El solapamiento conserva tokens del fragmento anterior. Con tamaño 500 y solapamiento 50, cada fragmento posterior avanza 450 tokens. El tamaño y el solapamiento de la consulta del usuario tienen prioridad sobre los ejemplos."
+                },
+                {
+                  "source": "dimensionamiento.md",
+                  "title": "Cantidad de fragmentos de un documento",
+                  "text": "Para N tokens, tamaño C y solapamiento O, con N positivo y 0 <= O < C, la cantidad mínima de ventanas de tamaño fijo es 1 si N <= C; en otro caso es 1 + ceil((N-C)/(C-O)). Es una estimación para ventanas fijas, no la cantidad exacta de fragmentos de un splitter que respeta párrafos."
+                }
+              ]
+            }
+          },
+          {
+            "agent": "analyst",
+            "tool": "calculate_chunks",
+            "arguments": {
+              "total_tokens": 2000,
+              "chunk_size": 500,
+              "overlap": 50
+            },
+            "result": {
+              "total_tokens": 2000,
+              "chunk_size": 500,
+              "overlap": 50,
+              "stride": 450,
+              "chunks": 5,
+              "coverage": 2300,
+              "source": "dimensionamiento.md"
+            }
+          }
+        ],
+        "decisions": [
+          {
+            "agent": "researcher",
+            "reason": "Falta evidencia técnica",
+            "validation": "Falta evidencia: consultá chunking y dimensionamiento con sus fuentes."
+          },
+          {
+            "agent": "analyst",
+            "reason": "Falta evidencia técnica citada",
+            "validation": "Falta un cálculo válido con los tres parámetros del pedido."
+          },
+          {
+            "agent": "finish",
+            "reason": "Evidencia y cálculo validados por la rúbrica",
+            "validation": "Fuentes, fórmula y cobertura consistentes"
+          }
+        ],
+        "steps": 3,
+        "feedback": "",
+        "task_completed": true,
+        "final_answer": "El chunking divide el documento y el solapamiento conserva contexto [chunking.md]. Para 2000 tokens, ventanas de 500 y solapamiento de 50, el avance es 450 tokens. Se necesitan 5 fragmentos: 1 + ceil(max(0, 2000 - 500) / 450) [dimensionamiento.md]. Es una estimación de ventanas fijas; un splitter que respeta párrafos puede producir otra cantidad."
+      },
+      "payload": {
+        "request": "Investigá chunking con solapamiento. Calculá las ventanas fijas para 2000 tokens, tamaño 500 y solapamiento 50. Citá fuentes.",
+        "action": "analyze",
+        "batch": "carga5"
+      },
+      "created_at": "2026-11-19T19:16:53.335068+00:00"
+    },
+    {
+      "job_id": "348d6142-3be7-4c87-b72d-253879e80828",
+      "interrupts": [],
+      "trace_id": "1db5c18137c45dff72f93ddaf301e025",
+      "status": "DONE",
+      "updated_at": "2026-11-19T19:17:42.299225+00:00",
+      "result": {
+        "job_id": "348d6142-3be7-4c87-b72d-253879e80828",
+        "action": "analyze",
+        "approved": false,
+        "published": false,
+        "request": "Investigá chunking con solapamiento. Calculá las ventanas fijas para 2100 tokens, tamaño 500 y solapamiento 50. Citá fuentes.",
+        "next_agent": "finish",
+        "instruction": "Calculá la cantidad de ventanas fijas para 2100 tokens, tamaño 500 y solapamiento 50. Utiliza la fórmula de dimensionamiento. Citá la fuente Falta un cálculo válido con los tres parámetros del pedido.",
+        "research": {
+          "documents": [
+            {
+              "source": "chunking.md",
+              "title": "Chunking con solapamiento",
+              "text": "El chunking divide un documento en fragmentos. Para este ejercicio se trabaja con ventanas de tokens de tamaño fijo. El solapamiento conserva tokens del fragmento anterior. Con tamaño 500 y solapamiento 50, cada fragmento posterior avanza 450 tokens. El tamaño y el solapamiento de la consulta del usuario tienen prioridad sobre los ejemplos."
+            },
+            {
+              "source": "dimensionamiento.md",
+              "title": "Cantidad de fragmentos de un documento",
+              "text": "Para N tokens, tamaño C y solapamiento O, con N positivo y 0 <= O < C, la cantidad mínima de ventanas de tamaño fijo es 1 si N <= C; en otro caso es 1 + ceil((N-C)/(C-O)). Es una estimación para ventanas fijas, no la cantidad exacta de fragmentos de un splitter que respeta párrafos."
+            }
+          ]
+        },
+        "analysis": {
+          "total_tokens": 2100,
+          "chunk_size": 500,
+          "overlap": 50,
+          "stride": 450,
+          "chunks": 5,
+          "coverage": 2300,
+          "source": "dimensionamiento.md"
+        },
+        "contributions": [
+          {
+            "agent": "researcher",
+            "tool": "search_knowledge",
+            "arguments": {
+              "query": "chunking con solapamiento, ventanas fijas, 2100 tokens, tamaño 500, solapamiento"
+            },
+            "result": {
+              "documents": [
+                {
+                  "source": "chunking.md",
+                  "title": "Chunking con solapamiento",
+                  "text": "El chunking divide un documento en fragmentos. Para este ejercicio se trabaja con ventanas de tokens de tamaño fijo. El solapamiento conserva tokens del fragmento anterior. Con tamaño 500 y solapamiento 50, cada fragmento posterior avanza 450 tokens. El tamaño y el solapamiento de la consulta del usuario tienen prioridad sobre los ejemplos."
+                },
+                {
+                  "source": "dimensionamiento.md",
+                  "title": "Cantidad de fragmentos de un documento",
+                  "text": "Para N tokens, tamaño C y solapamiento O, con N positivo y 0 <= O < C, la cantidad mínima de ventanas de tamaño fijo es 1 si N <= C; en otro caso es 1 + ceil((N-C)/(C-O)). Es una estimación para ventanas fijas, no la cantidad exacta de fragmentos de un splitter que respeta párrafos."
+                }
+              ]
+            }
+          },
+          {
+            "agent": "analyst",
+            "tool": "calculate_chunks",
+            "arguments": {
+              "total_tokens": 2100,
+              "chunk_size": 500,
+              "overlap": 50
+            },
+            "result": {
+              "total_tokens": 2100,
+              "chunk_size": 500,
+              "overlap": 50,
+              "stride": 450,
+              "chunks": 5,
+              "coverage": 2300,
+              "source": "dimensionamiento.md"
+            }
+          }
+        ],
+        "decisions": [
+          {
+            "agent": "researcher",
+            "reason": "Falta evidencia técnica",
+            "validation": "Falta evidencia: consultá chunking y dimensionamiento con sus fuentes."
+          },
+          {
+            "agent": "analyst",
+            "reason": "Falta evidencia técnica citada",
+            "validation": "Falta un cálculo válido con los tres parámetros del pedido."
+          },
+          {
+            "agent": "finish",
+            "reason": "Evidencia y cálculo validados por la rúbrica",
+            "validation": "Fuentes, fórmula y cobertura consistentes"
+          }
+        ],
+        "steps": 3,
+        "feedback": "",
+        "task_completed": true,
+        "final_answer": "El chunking divide el documento y el solapamiento conserva contexto [chunking.md]. Para 2100 tokens, ventanas de 500 y solapamiento de 50, el avance es 450 tokens. Se necesitan 5 fragmentos: 1 + ceil(max(0, 2100 - 500) / 450) [dimensionamiento.md]. Es una estimación de ventanas fijas; un splitter que respeta párrafos puede producir otra cantidad."
+      },
+      "payload": {
+        "request": "Investigá chunking con solapamiento. Calculá las ventanas fijas para 2100 tokens, tamaño 500 y solapamiento 50. Citá fuentes.",
+        "action": "analyze",
+        "batch": "carga5"
+      },
+      "created_at": "2026-11-19T19:16:53.328801+00:00"
+    },
+    {
+      "job_id": "4c06c0c1-c3f7-4252-8fa0-ae683e692650",
+      "interrupts": [],
+      "trace_id": "8541ef41dee4a9f7cd442ed73f2122b4",
+      "status": "DONE",
+      "updated_at": "2026-11-19T19:18:32.366764+00:00",
+      "result": {
+        "job_id": "4c06c0c1-c3f7-4252-8fa0-ae683e692650",
+        "action": "analyze",
+        "approved": false,
+        "published": false,
+        "request": "Investigá chunking con solapamiento. Calculá las ventanas fijas para 2200 tokens, tamaño 500 y solapamiento 50. Citá fuentes.",
+        "next_agent": "finish",
+        "instruction": "Calculá la cantidad de ventanas fijas para 2200 tokens, tamaño 500 y solapamiento 50. Utiliza la fórmula de dimensionamiento. Citá la fuente Falta un cálculo válido con los tres parámetros del pedido.",
+        "research": {
+          "documents": [
+            {
+              "source": "chunking.md",
+              "title": "Chunking con solapamiento",
+              "text": "El chunking divide un documento en fragmentos. Para este ejercicio se trabaja con ventanas de tokens de tamaño fijo. El solapamiento conserva tokens del fragmento anterior. Con tamaño 500 y solapamiento 50, cada fragmento posterior avanza 450 tokens. El tamaño y el solapamiento de la consulta del usuario tienen prioridad sobre los ejemplos."
+            },
+            {
+              "source": "dimensionamiento.md",
+              "title": "Cantidad de fragmentos de un documento",
+              "text": "Para N tokens, tamaño C y solapamiento O, con N positivo y 0 <= O < C, la cantidad mínima de ventanas de tamaño fijo es 1 si N <= C; en otro caso es 1 + ceil((N-C)/(C-O)). Es una estimación para ventanas fijas, no la cantidad exacta de fragmentos de un splitter que respeta párrafos."
+            }
+          ]
+        },
+        "analysis": {
+          "total_tokens": 2200,
+          "chunk_size": 500,
+          "overlap": 50,
+          "stride": 450,
+          "chunks": 5,
+          "coverage": 2300,
+          "source": "dimensionamiento.md"
+        },
+        "contributions": [
+          {
+            "agent": "researcher",
+            "tool": "search_knowledge",
+            "arguments": {
+              "query": "chunking con solapamiento, ventanas fijas para 2200 tokens, tamaño 500 y solapam"
+            },
+            "result": {
+              "documents": [
+                {
+                  "source": "chunking.md",
+                  "title": "Chunking con solapamiento",
+                  "text": "El chunking divide un documento en fragmentos. Para este ejercicio se trabaja con ventanas de tokens de tamaño fijo. El solapamiento conserva tokens del fragmento anterior. Con tamaño 500 y solapamiento 50, cada fragmento posterior avanza 450 tokens. El tamaño y el solapamiento de la consulta del usuario tienen prioridad sobre los ejemplos."
+                },
+                {
+                  "source": "dimensionamiento.md",
+                  "title": "Cantidad de fragmentos de un documento",
+                  "text": "Para N tokens, tamaño C y solapamiento O, con N positivo y 0 <= O < C, la cantidad mínima de ventanas de tamaño fijo es 1 si N <= C; en otro caso es 1 + ceil((N-C)/(C-O)). Es una estimación para ventanas fijas, no la cantidad exacta de fragmentos de un splitter que respeta párrafos."
+                }
+              ]
+            }
+          },
+          {
+            "agent": "analyst",
+            "tool": "calculate_chunks",
+            "arguments": {
+              "total_tokens": 2200,
+              "chunk_size": 500,
+              "overlap": 50
+            },
+            "result": {
+              "total_tokens": 2200,
+              "chunk_size": 500,
+              "overlap": 50,
+              "stride": 450,
+              "chunks": 5,
+              "coverage": 2300,
+              "source": "dimensionamiento.md"
+            }
+          }
+        ],
+        "decisions": [
+          {
+            "agent": "researcher",
+            "reason": "Falta evidencia",
+            "validation": "Falta evidencia: consultá chunking y dimensionamiento con sus fuentes."
+          },
+          {
+            "agent": "analyst",
+            "reason": "Falta evidencia técnica citada",
+            "validation": "Falta un cálculo válido con los tres parámetros del pedido."
+          },
+          {
+            "agent": "finish",
+            "reason": "Evidencia y cálculo validados por la rúbrica",
+            "validation": "Fuentes, fórmula y cobertura consistentes"
+          }
+        ],
+        "steps": 3,
+        "feedback": "",
+        "task_completed": true,
+        "final_answer": "El chunking divide el documento y el solapamiento conserva contexto [chunking.md]. Para 2200 tokens, ventanas de 500 y solapamiento de 50, el avance es 450 tokens. Se necesitan 5 fragmentos: 1 + ceil(max(0, 2200 - 500) / 450) [dimensionamiento.md]. Es una estimación de ventanas fijas; un splitter que respeta párrafos puede producir otra cantidad."
+      },
+      "payload": {
+        "request": "Investigá chunking con solapamiento. Calculá las ventanas fijas para 2200 tokens, tamaño 500 y solapamiento 50. Citá fuentes.",
+        "action": "analyze",
+        "batch": "carga5"
+      },
+      "created_at": "2026-11-19T19:16:53.332796+00:00"
+    },
+    {
+      "job_id": "c4b4ce87-f438-4540-a9ae-222a06bf4bcb",
+      "interrupts": [],
+      "trace_id": "3697eb57de204d877854361e893fa1c6",
+      "status": "DONE",
+      "updated_at": "2026-11-19T19:20:17.188176+00:00",
+      "result": {
+        "job_id": "c4b4ce87-f438-4540-a9ae-222a06bf4bcb",
+        "action": "analyze",
+        "approved": false,
+        "published": false,
+        "request": "Investigá chunking con solapamiento. Calculá las ventanas fijas para 2300 tokens, tamaño 500 y solapamiento 50. Citá fuentes.",
+        "next_agent": "finish",
+        "instruction": "Calculá la cantidad de ventanas fijas para 2300 tokens, tamaño 500 y solapamiento 50. Utiliza la fórmula de dimensionamiento. Citá la fuente Falta un cálculo válido con los tres parámetros del pedido.",
+        "research": {
+          "documents": [
+            {
+              "source": "chunking.md",
+              "title": "Chunking con solapamiento",
+              "text": "El chunking divide un documento en fragmentos. Para este ejercicio se trabaja con ventanas de tokens de tamaño fijo. El solapamiento conserva tokens del fragmento anterior. Con tamaño 500 y solapamiento 50, cada fragmento posterior avanza 450 tokens. El tamaño y el solapamiento de la consulta del usuario tienen prioridad sobre los ejemplos."
+            },
+            {
+              "source": "dimensionamiento.md",
+              "title": "Cantidad de fragmentos de un documento",
+              "text": "Para N tokens, tamaño C y solapamiento O, con N positivo y 0 <= O < C, la cantidad mínima de ventanas de tamaño fijo es 1 si N <= C; en otro caso es 1 + ceil((N-C)/(C-O)). Es una estimación para ventanas fijas, no la cantidad exacta de fragmentos de un splitter que respeta párrafos."
+            }
+          ]
+        },
+        "analysis": {
+          "total_tokens": 2300,
+          "chunk_size": 500,
+          "overlap": 50,
+          "stride": 450,
+          "chunks": 5,
+          "coverage": 2300,
+          "source": "dimensionamiento.md"
+        },
+        "contributions": [
+          {
+            "agent": "researcher",
+            "tool": "search_knowledge",
+            "arguments": {
+              "query": "chunking con solapamiento, ventanas fijas, 2300 tokens, tamaño 500, solapamiento"
+            },
+            "result": {
+              "documents": [
+                {
+                  "source": "chunking.md",
+                  "title": "Chunking con solapamiento",
+                  "text": "El chunking divide un documento en fragmentos. Para este ejercicio se trabaja con ventanas de tokens de tamaño fijo. El solapamiento conserva tokens del fragmento anterior. Con tamaño 500 y solapamiento 50, cada fragmento posterior avanza 450 tokens. El tamaño y el solapamiento de la consulta del usuario tienen prioridad sobre los ejemplos."
+                },
+                {
+                  "source": "dimensionamiento.md",
+                  "title": "Cantidad de fragmentos de un documento",
+                  "text": "Para N tokens, tamaño C y solapamiento O, con N positivo y 0 <= O < C, la cantidad mínima de ventanas de tamaño fijo es 1 si N <= C; en otro caso es 1 + ceil((N-C)/(C-O)). Es una estimación para ventanas fijas, no la cantidad exacta de fragmentos de un splitter que respeta párrafos."
+                }
+              ]
+            }
+          },
+          {
+            "agent": "analyst",
+            "tool": "calculate_chunks",
+            "arguments": {
+              "total_tokens": 2300,
+              "chunk_size": 500,
+              "overlap": 50
+            },
+            "result": {
+              "total_tokens": 2300,
+              "chunk_size": 500,
+              "overlap": 50,
+              "stride": 450,
+              "chunks": 5,
+              "coverage": 2300,
+              "source": "dimensionamiento.md"
+            }
+          }
+        ],
+        "decisions": [
+          {
+            "agent": "researcher",
+            "reason": "Falta evidencia técnica",
+            "validation": "Falta evidencia: consultá chunking y dimensionamiento con sus fuentes."
+          },
+          {
+            "agent": "analyst",
+            "reason": "Falta evidencia técnica citada",
+            "validation": "Falta un cálculo válido con los tres parámetros del pedido."
+          },
+          {
+            "agent": "finish",
+            "reason": "Evidencia y cálculo validados por la rúbrica",
+            "validation": "Fuentes, fórmula y cobertura consistentes"
+          }
+        ],
+        "steps": 3,
+        "feedback": "",
+        "task_completed": true,
+        "final_answer": "El chunking divide el documento y el solapamiento conserva contexto [chunking.md]. Para 2300 tokens, ventanas de 500 y solapamiento de 50, el avance es 450 tokens. Se necesitan 5 fragmentos: 1 + ceil(max(0, 2300 - 500) / 450) [dimensionamiento.md]. Es una estimación de ventanas fijas; un splitter que respeta párrafos puede producir otra cantidad."
+      },
+      "payload": {
+        "request": "Investigá chunking con solapamiento. Calculá las ventanas fijas para 2300 tokens, tamaño 500 y solapamiento 50. Citá fuentes.",
+        "action": "analyze",
+        "batch": "carga5"
+      },
+      "created_at": "2026-11-19T19:16:53.336031+00:00"
+    },
+    {
+      "job_id": "7cb1eb5f-8783-4c1c-a0ea-27bb50798657",
+      "interrupts": [],
+      "trace_id": "6e3cf6114be7a36b6dd125f8a0232ab4",
+      "status": "DONE",
+      "updated_at": "2026-11-19T19:21:00.595931+00:00",
+      "result": {
+        "job_id": "7cb1eb5f-8783-4c1c-a0ea-27bb50798657",
+        "action": "analyze",
+        "approved": false,
+        "published": false,
+        "request": "Investigá chunking con solapamiento. Calculá las ventanas fijas para 2400 tokens, tamaño 500 y solapamiento 50. Citá fuentes.",
+        "next_agent": "finish",
+        "instruction": "Calculá la cantidad de ventanas fijas para 2400 tokens, tamaño 500 y solapamiento 50. Utiliza la fórmula de dimensionamiento. Citá la fuente Falta un cálculo válido con los tres parámetros del pedido.",
+        "research": {
+          "documents": [
+            {
+              "source": "chunking.md",
+              "title": "Chunking con solapamiento",
+              "text": "El chunking divide un documento en fragmentos. Para este ejercicio se trabaja con ventanas de tokens de tamaño fijo. El solapamiento conserva tokens del fragmento anterior. Con tamaño 500 y solapamiento 50, cada fragmento posterior avanza 450 tokens. El tamaño y el solapamiento de la consulta del usuario tienen prioridad sobre los ejemplos."
+            },
+            {
+              "source": "dimensionamiento.md",
+              "title": "Cantidad de fragmentos de un documento",
+              "text": "Para N tokens, tamaño C y solapamiento O, con N positivo y 0 <= O < C, la cantidad mínima de ventanas de tamaño fijo es 1 si N <= C; en otro caso es 1 + ceil((N-C)/(C-O)). Es una estimación para ventanas fijas, no la cantidad exacta de fragmentos de un splitter que respeta párrafos."
+            }
+          ]
+        },
+        "analysis": {
+          "total_tokens": 2400,
+          "chunk_size": 500,
+          "overlap": 50,
+          "stride": 450,
+          "chunks": 6,
+          "coverage": 2750,
+          "source": "dimensionamiento.md"
+        },
+        "contributions": [
+          {
+            "agent": "researcher",
+            "tool": "search_knowledge",
+            "arguments": {
+              "query": "chunking con solapamiento, ventanas fijas, 2400 tokens, tamaño 500, solapamiento"
+            },
+            "result": {
+              "documents": [
+                {
+                  "source": "chunking.md",
+                  "title": "Chunking con solapamiento",
+                  "text": "El chunking divide un documento en fragmentos. Para este ejercicio se trabaja con ventanas de tokens de tamaño fijo. El solapamiento conserva tokens del fragmento anterior. Con tamaño 500 y solapamiento 50, cada fragmento posterior avanza 450 tokens. El tamaño y el solapamiento de la consulta del usuario tienen prioridad sobre los ejemplos."
+                },
+                {
+                  "source": "dimensionamiento.md",
+                  "title": "Cantidad de fragmentos de un documento",
+                  "text": "Para N tokens, tamaño C y solapamiento O, con N positivo y 0 <= O < C, la cantidad mínima de ventanas de tamaño fijo es 1 si N <= C; en otro caso es 1 + ceil((N-C)/(C-O)). Es una estimación para ventanas fijas, no la cantidad exacta de fragmentos de un splitter que respeta párrafos."
+                }
+              ]
+            }
+          },
+          {
+            "agent": "analyst",
+            "tool": "calculate_chunks",
+            "arguments": {
+              "total_tokens": 2400,
+              "chunk_size": 500,
+              "overlap": 50
+            },
+            "result": {
+              "total_tokens": 2400,
+              "chunk_size": 500,
+              "overlap": 50,
+              "stride": 450,
+              "chunks": 6,
+              "coverage": 2750,
+              "source": "dimensionamiento.md"
+            }
+          }
+        ],
+        "decisions": [
+          {
+            "agent": "researcher",
+            "reason": "Falta evidencia técnica",
+            "validation": "Falta evidencia: consultá chunking y dimensionamiento con sus fuentes."
+          },
+          {
+            "agent": "analyst",
+            "reason": "Falta evidencia técnica citada",
+            "validation": "Falta un cálculo válido con los tres parámetros del pedido."
+          },
+          {
+            "agent": "finish",
+            "reason": "Evidencia y cálculo validados por la rúbrica",
+            "validation": "Fuentes, fórmula y cobertura consistentes"
+          }
+        ],
+        "steps": 3,
+        "feedback": "",
+        "task_completed": true,
+        "final_answer": "El chunking divide el documento y el solapamiento conserva contexto [chunking.md]. Para 2400 tokens, ventanas de 500 y solapamiento de 50, el avance es 450 tokens. Se necesitan 6 fragmentos: 1 + ceil(max(0, 2400 - 500) / 450) [dimensionamiento.md]. Es una estimación de ventanas fijas; un splitter que respeta párrafos puede producir otra cantidad."
+      },
+      "payload": {
+        "request": "Investigá chunking con solapamiento. Calculá las ventanas fijas para 2400 tokens, tamaño 500 y solapamiento 50. Citá fuentes.",
+        "action": "analyze",
+        "batch": "carga5"
+      },
+      "created_at": "2026-11-19T19:16:53.336800+00:00"
+    }
+  ]
+}

@@ -65,6 +65,10 @@ El script usa `asyncio.gather` para enviar cinco solicitudes, consulta sus estad
 
 En el proyecto `preentrega7-carga5-final`, revisar las trazas del worker, los nodos, las herramientas y los spans LLM. El panel Metrics muestra la latencia p95; la tabla de trazas muestra el costo por ejecución. Las capturas de esa corrida están en `screenshots/`. Se instrumenta el trabajo completo, sin incluir las consultas HTTP de estado en ese proyecto. El p95 de Phoenix corresponde a la ejecución del trabajo, no al tiempo de aceptación HTTP ni a la espera previa en la cola.
 
+La corrida incluida completó 5/5 tareas, aceptó las cinco peticiones en menos de 0,06 segundos y registró una latencia p95 de 53,28 segundos, con costo de API USD 0 por ejecución.
+
+En la traza de ejemplo de 43,4 segundos, las dos llamadas del supervisor concentran 869 tokens y unos 26,2 segundos; el investigador usa 217 tokens y el analista 471. Las herramientas de consulta y cálculo duran milisegundos: la mayor parte de la latencia se concentra en la inferencia local.
+
 ## Aprobación humana
 
 `action="publish_report"` identifica una operación con efecto secundario: publicar el informe en Redis. El grafo calcula el resultado y se detiene obligatoriamente antes de publicar. No se crea el informe hasta recibir una aprobación externa; el checkpoint permite esperar incluso si se reinicia la API.
@@ -84,6 +88,8 @@ curl -X POST http://127.0.0.1:8007/tasks/JOB_ID/approve \
 ```
 
 `false` deja el trabajo en `REJECTED` y no publica. `GET /tasks/{job_id}/report` devuelve el informe únicamente después de aprobar. Los errores del worker quedan en `FAILED` con su motivo.
+
+`python scripts/hitl_demo.py` reproduce la pausa y el envío de aprobación externa. `hitl_result.json` contiene la prueba real: estado de espera, informe ausente antes de aprobar y publicación posterior.
 
 ## Pruebas y recuperación
 
